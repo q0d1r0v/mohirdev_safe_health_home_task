@@ -15,10 +15,38 @@ datasource db {
 
 model patients {
   id             String   @id @default(uuid())
-  name           String
+  name           String   @db.VarChar(255)
   age            Int
-  health_history String
-  contact_info   String
+  health_history String   @db.Text
+  contact_info   Json
   created_at     DateTime @default(now())
   updated_at     DateTime @updatedAt
+}
+
+model Appointments {
+  id                 String               @id @default(uuid())
+  patient_id         String
+  doctor_name        String               @db.VarChar(255)
+  appointment_date   DateTime
+  status             status
+  medical_conditions medical_conditions[]
+  created_at         DateTime             @default(now())
+  updated_at         DateTime             @updatedAt
+
+  @@index([patient_id])
+  @@map("appointments")
+}
+
+enum status {
+  REJALASHTIRILGAN
+  TUGALLANGAN
+  BEKOR_QILINDI
+}
+
+enum medical_conditions {
+  DIABET
+  GIPERTENZIYA
+  ASTMA
+  YURAK_KASALLIGI
+  HECH
 }
