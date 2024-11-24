@@ -48,3 +48,33 @@ export class GetPatientsDto {
   @IsDate()
   to_date: Date;
 }
+export class UpdatePatientDto {
+  @ApiProperty()
+  @IsNotEmpty()
+  patient_id: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  name: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsNumber()
+  age: number;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  health_history: string;
+
+  @IsOptional()
+  @IsObject()
+  contact_info: Record<string, any>;
+}
+
+export class DeletePatientDto {
+  @ApiProperty()
+  @IsNotEmpty()
+  patient_id: string;
+}

@@ -37,4 +37,47 @@ export class PatientsService {
       );
     }
   }
+  async updatePatient(patient_form) {
+    try {
+      const { patient_id, name, age, health_history, contact_info } =
+        patient_form;
+      await this.prisma.patients.update({
+        where: {
+          id: patient_id,
+        },
+        data: {
+          name,
+          age,
+          health_history,
+          contact_info,
+        },
+      });
+      return new HttpException('Patient updates successfully!', HttpStatus.OK);
+    } catch (err: any) {
+      return new HttpException(
+        err || 'INTERNAL_SERVER_ERROR',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  async deletePatient(params) {
+    try {
+      const { patient_id } = params;
+      await this.prisma.patients.delete({
+        where: {
+          id: patient_id,
+        },
+      });
+      return new HttpException(
+        'Patient deleted successfully!',
+        HttpStatus.NO_CONTENT,
+      );
+    } catch (err) {
+      return new HttpException(
+        err || 'INTERNAL_SERVER_ERROR',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
 }
